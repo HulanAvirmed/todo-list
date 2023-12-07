@@ -14,12 +14,15 @@ export default function Main() {
   }, []);
 
   const getTodoList = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo/list`, {
-      cache: "no-cache",
-      headers: {
-        "Cache-Control": "no-store, max-age=0",
-      },
-    })
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/todo/list?nocache=${Math.random()}`,
+      {
+        cache: "no-cache",
+        headers: {
+          "Cache-Control": "no-store, max-age=0",
+        },
+      }
+    )
       .then((result) => result.json())
       .then((data) => {
         setTodoList(data);
