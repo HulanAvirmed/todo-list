@@ -17,10 +17,7 @@ export default function Main() {
     await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/todo/list?nocache=${Math.random()}`,
       {
-        cache: "no-cache",
-        headers: {
-          "Cache-Control": "no-store, max-age=0",
-        },
+        next: { revalidate: 5 },
       }
     )
       .then((result) => result.json())
@@ -35,7 +32,6 @@ export default function Main() {
 
   const onCreate = async (name) => {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo`, {
-      cache: "no-store",
       method: "POST",
       body: JSON.stringify({ name: name, completed: false }),
     })
@@ -56,7 +52,6 @@ export default function Main() {
 
     if (index > -1) {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo`, {
-        cache: "no-store",
         method: "PUT",
         body: JSON.stringify({ id: id, name: name, completed: completed }),
       })
@@ -83,7 +78,6 @@ export default function Main() {
 
     if (index > -1) {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo`, {
-        cache: "no-store",
         method: "PUT",
         body: JSON.stringify({
           id: id,
