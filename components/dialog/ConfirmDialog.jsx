@@ -1,22 +1,33 @@
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grow,
 } from "@mui/material";
+import { CancelButton, ConfirmButton } from "../button";
+import React from "react";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Grow ref={ref} {...props} />;
+});
 
 export const ConfirmDialog = ({ onConfirm, onClose, isEdit, ...props }) => {
   return (
-    <Dialog {...props}>
+    <Dialog
+      TransitionComponent={Transition}
+      fullWidth={true}
+      maxWidth="xs"
+      {...props}
+    >
       <DialogTitle>Delete confirm</DialogTitle>
       <DialogContent>
-        <DialogContentText>Are u sutre deletete</DialogContentText>
+        <DialogContentText>Are you sure want to delete?</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onConfirm}>Confirm</Button>
-        <Button onClick={onClose}>Cancel</Button>
+        <ConfirmButton onClick={onConfirm} />
+        <CancelButton onClick={onClose} />
       </DialogActions>
     </Dialog>
   );

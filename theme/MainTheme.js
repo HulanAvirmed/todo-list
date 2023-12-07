@@ -2,6 +2,8 @@ import { createTheme } from "@mui/material";
 
 export const MainTheme = createTheme({
   palette: {
+    primary: { main: "#3b509c" },
+    secondary: { main: "#d435f7" },
     text: {
       primary: "#ffffff",
     },
@@ -40,9 +42,48 @@ export const MainTheme = createTheme({
         }),
       },
     },
+    MuiDialog: {
+      styleOverrides: {
+        container: {
+          "> .MuiPaper-root": {},
+
+          ".MuiDialogTitle-root": {
+            color: "#3b509c",
+          },
+        },
+      },
+    },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          color: "#3b509c",
+
+          ":before": {
+            borderBottom: "2px solid #3b509c !important",
+          },
+
+          "&:hover:before": {
+            borderBottom: "2px solid #3b509c !important",
+          },
+        },
+      },
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
-        root: {},
+        root: {
+          textTransform: "capitalize",
+        },
       },
     },
   },

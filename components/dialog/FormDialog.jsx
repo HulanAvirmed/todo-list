@@ -1,17 +1,13 @@
-import styled from "@emotion/styled";
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Grow,
-  Slide,
   TextField,
-  Zoom,
 } from "@mui/material";
 import React, { useRef } from "react";
+import { CancelButton, SaveButton } from "../button";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
@@ -24,37 +20,33 @@ export const FormDialog = ({ data, onSave, onClose, isEdit, ...props }) => {
     <Dialog
       TransitionComponent={Transition}
       fullWidth={true}
-      maxWidth="sm"
+      maxWidth="xs"
       {...props}
     >
-      <DialogTitle>{isEdit ? "Edit" : "Create new todo"}</DialogTitle>
+      <DialogTitle>{isEdit ? "Edit" : "Create new"}</DialogTitle>
       <DialogContent>
         <TextField
-          variant="outlined"
+          variant="standard"
           inputRef={nameRef}
-          label="Todo"
+          // label="Todo"
           defaultValue={data?.name}
           fullWidth
           autoFocus={true}
         />
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={() => onSave(nameRef.current.valueOf().value, data?.id)}
-          variant="outlined"
+        <SaveButton
+          onClick={() => {
+            const value = nameRef.current.valueOf().value;
+            if (value) onSave(value, data?.id);
+          }}
         >
           {isEdit ? "Update" : "Create"}
-        </Button>
-        <Button onClick={onClose} variant="outlined">
-          Cancel
-        </Button>
+        </SaveButton>
+        <CancelButton onClick={onClose} />
       </DialogActions>
     </Dialog>
   );
 };
 
 export default FormDialog;
-
-const StyledDialog = styled(({ ...props }) => <Dialog {...props}></Dialog>)(
-  ({ theme }) => ({})
-);

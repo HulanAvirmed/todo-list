@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { styled } from "@mui/system";
-import Button from "@mui/material/Button";
 import FormDialog from "../dialog/FormDialog";
 import { Fab, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -16,14 +15,23 @@ export const CreateButton = ({ onCreate, ...props }) => {
   };
 
   return (
-    <>
+    <Stack
+      alignItems="end"
+      sx={{
+        position: "absolute",
+        bottom: "20px",
+        height: "58px",
+        width: "100%",
+        paddingRight: "20px",
+      }}
+    >
       <StyledCreateButton onClick={() => setShowDialog(true)} {...props} />
       <FormDialog
         onSave={onSave}
         open={showDialog}
         onClose={() => setShowDialog(false)}
       />
-    </>
+    </Stack>
   );
 };
 
@@ -34,7 +42,7 @@ const StyledCreateButton = styled(({ ...props }) => (
     <AddIcon sx={{ color: "white" }} />
   </Fab>
 ))(({ theme }) => ({
-  background: "#d435f7",
+  background: theme.palette.secondary.main,
 
   "&:hover": {
     background: "#9503b5",

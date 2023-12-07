@@ -30,7 +30,7 @@ export default DeleteButton;
 
 const StyldeDeleteButton = styled(({ ...props }) => (
   <IconButton aria-label="delete" {...props}>
-    <ClearIcon sx={{ color: "#d435f7" }} fontSize="small" />
+    <ClearIcon sx={{ color: "secondary.main" }} fontSize="small" />
   </IconButton>
 ))(({ theme }) => ({
   width: 30,

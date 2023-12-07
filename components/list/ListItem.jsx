@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { styled } from "@mui/system";
 import { Checkbox, ListItem as MuiListItem, Paper } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -24,15 +23,20 @@ export const ListItem = ({
       sx={{ borderRadius: "10px", background: "#0a1952" }}
     >
       <MuiListItem
+        disableGutters={true}
         secondaryAction={
           <>
             <EditButton data={data} onUpdate={onUpdate} />
-            <DeleteButton dataId={data.id} onDelete={onDelete} />
+            <DeleteButton
+              dataId={data.id}
+              onDelete={onDelete}
+              sx={{ margin: "0 5px 0 0" }}
+            />
           </>
         }
         {...props}
       >
-        <ListItemIcon>
+        <ListItemIcon sx={{ marginLeft: "10px", minWidth: "0px" }}>
           <Checkbox
             checked={data.completed}
             edge="start"
@@ -43,7 +47,16 @@ export const ListItem = ({
           />
         </ListItemIcon>
         <ListItemText
-          style={{ textDecoration: data.completed ? "line-through" : "normal" }}
+          primaryTypographyProps={{
+            sx: {
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              paddingRight: "20px",
+            },
+          }}
+          sx={{
+            textDecoration: data.completed ? "line-through" : "normal",
+          }}
         >
           {children}
         </ListItemText>

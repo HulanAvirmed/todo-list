@@ -1,21 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CreateButton, ListItem, List, TodoContainer } from "@/components";
+import { ListItem, List, TodoContainer, ListSkeleton } from "@/components";
 import { ThemeProvider } from "@/theme";
+import { Skeleton } from "@mui/material";
 
 export default function Main() {
   const [todoList, setTodoList] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     getTodoList();
   }, []);
 
   const getTodoList = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo/list`)
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo/list`, {
+      cache: "no-store",
+    })
       .then((result) => result.json())
       .then((data) => {
         setTodoList(data);
+        setLoading(false);
       })
       .catch((e) => {
         console.log(e);
@@ -24,12 +29,16 @@ export default function Main() {
 
   const onCreate = async (name) => {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo`, {
+      cache: "no-store",
       method: "POST",
       body: JSON.stringify({ name: name, completed: false }),
     })
       .then((result) => result.json())
       .then((data) => {
-        setTodoList([...todoList, { id: data.id, name: data.name }]);
+        setTodoList([
+          { id: data.id, name: data.name, completed: data.completed },
+          ...todoList,
+        ]);
       })
       .catch((e) => {
         console.log(e);
@@ -41,6 +50,7 @@ export default function Main() {
 
     if (index > -1) {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo`, {
+        cache: "no-store",
         method: "PUT",
         body: JSON.stringify({ id: id, name: name, completed: completed }),
       })
@@ -51,7 +61,7 @@ export default function Main() {
           _todoList[index] = {
             id: data.id,
             name: data.name,
-            complete: data.complete,
+            completed: data.completed,
           };
 
           setTodoList(_todoList);
@@ -67,6 +77,7 @@ export default function Main() {
 
     if (index > -1) {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo`, {
+        cache: "no-store",
         method: "PUT",
         body: JSON.stringify({
           id: id,
@@ -94,6 +105,7 @@ export default function Main() {
 
   const onDelete = async (id) => {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo`, {
+      cache: "no-store",
       method: "DELETE",
       body: JSON.stringify({ id: id }),
     })
@@ -112,19 +124,27 @@ export default function Main() {
         taskCount={todoList?.filter((f) => f.completed !== true).length}
         onCreate={onCreate}
       >
-        <List>
-          {todoList?.map((item, i) => (
-            <ListItem
-              data={item}
-              onCompleted={onCompleted}
-              onUpdate={onUpdate}
-              onDelete={onDelete}
-              key={i}
-            >
-              {item.name}
-            </ListItem>
-          ))}
-        </List>
+        {isLoading ? (
+          <ListSkeleton />
+        ) : (
+          <List>
+            {todoList
+              ?.sort((a, b) => {
+                return a.completed - b.completed;
+              })
+              .map((item, i) => (
+                <ListItem
+                  data={item}
+                  onCompleted={onCompleted}
+                  onUpdate={onUpdate}
+                  onDelete={onDelete}
+                  key={i}
+                >
+                  {item.name}
+                </ListItem>
+              ))}
+          </List>
+        )}
       </TodoContainer>
     </ThemeProvider>
   );
