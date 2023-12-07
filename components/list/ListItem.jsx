@@ -10,9 +10,14 @@ import DeleteButton from "../button/DeleteButton";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 
-export const ListItem = ({ onUpdate, onDelete, data, children, ...props }) => {
-  const [checked, setChecked] = useState(false);
-
+export const ListItem = ({
+  onUpdate,
+  onDelete,
+  onCompleted,
+  data,
+  children,
+  ...props
+}) => {
   return (
     <Paper
       variant="outlined"
@@ -29,15 +34,19 @@ export const ListItem = ({ onUpdate, onDelete, data, children, ...props }) => {
       >
         <ListItemIcon>
           <Checkbox
+            checked={data.completed}
             edge="start"
             disableRipple={true}
             icon={<RadioButtonUncheckedIcon />}
             checkedIcon={<TaskAltIcon />}
-            //   checked={checked}
-            onClick={() => setChecked(!checked)}
+            onClick={() => onCompleted(data.id)}
           />
         </ListItemIcon>
-        <ListItemText>{children}</ListItemText>
+        <ListItemText
+          style={{ textDecoration: data.completed ? "line-through" : "normal" }}
+        >
+          {children}
+        </ListItemText>
       </MuiListItem>
     </Paper>
   );

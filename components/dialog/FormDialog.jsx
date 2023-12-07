@@ -6,19 +6,31 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grow,
+  Slide,
   TextField,
+  Zoom,
 } from "@mui/material";
-import { useRef } from "react";
+import React, { useRef } from "react";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Grow ref={ref} {...props} />;
+});
 
 export const FormDialog = ({ data, onSave, onClose, isEdit, ...props }) => {
   const nameRef = useRef("");
 
   return (
-    <Dialog fullWidth={true} maxWidth="sm" {...props}>
+    <Dialog
+      TransitionComponent={Transition}
+      fullWidth={true}
+      maxWidth="sm"
+      {...props}
+    >
       <DialogTitle>{isEdit ? "Edit" : "Create new todo"}</DialogTitle>
       <DialogContent>
         <TextField
-          variant="standard"
+          variant="outlined"
           inputRef={nameRef}
           label="Todo"
           defaultValue={data?.name}

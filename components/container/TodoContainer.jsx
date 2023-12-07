@@ -7,13 +7,9 @@ import {
   styled,
 } from "@mui/material";
 import React from "react";
+import { CreateButton } from "../button";
 
-export const TodoContainer = ({
-  taskCount,
-  createButton,
-  children,
-  ...props
-}) => {
+export const TodoContainer = ({ taskCount, onCreate, children, ...props }) => {
   return (
     <Box
       sx={{
@@ -29,7 +25,7 @@ export const TodoContainer = ({
           subheader={`${taskCount || 0} task(s)`}
         ></CardHeader>
         <CardContent>{children}</CardContent>
-        <CardActions>{createButton}</CardActions>
+        <CreateButton onCreate={onCreate} />
       </StyledCard>
     </Box>
   );
@@ -40,8 +36,8 @@ export default TodoContainer;
 const StyledCard = styled(({ ...props }) => (
   <Card variant="outlined" {...props} />
 ))(({ theme }) => ({
-  width: "500px",
-  minHeight: "80%",
+  width: "400px",
+  minHeight: "80vh",
   background: "#3b509c",
   borderRadius: "20px",
 }));

@@ -16,14 +16,14 @@ export const CreateButton = ({ onCreate, ...props }) => {
   };
 
   return (
-    <Stack alignItems={"center"}>
+    <>
       <StyledCreateButton onClick={() => setShowDialog(true)} {...props} />
       <FormDialog
         onSave={onSave}
         open={showDialog}
         onClose={() => setShowDialog(false)}
       />
-    </Stack>
+    </>
   );
 };
 
@@ -35,7 +35,6 @@ const StyledCreateButton = styled(({ ...props }) => (
   </Fab>
 ))(({ theme }) => ({
   background: "#d435f7",
-  // boxShadow: "none",
 
   "&:hover": {
     background: "#9503b5",
